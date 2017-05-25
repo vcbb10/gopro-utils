@@ -3,9 +3,9 @@ GoPro Metadata Format Parser
 
 TLDR:
 
-1. `ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:m:handler_name:"	GoPro MET" -f rawvideo GOPR0001.bin`
-2. `gopro2json -i GOPR0001.bin -o GOPR0001.json`
-3. There is no step 3
+1. `ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:3 -f rawvideo GOPR0001.bin`
+2. `gopro2json -i GOPR0001.bin -o GOPR0001.json` or `gpmdinfo -i GOPR0001.bin`
+3. Use the csv/json, you can use [this](http://www.convertcsv.com/csv-to-kml.htm) to convert the gps.csv to a KML map.
 
 ---
 
@@ -80,6 +80,7 @@ Labels include:
  * `TMPC` - temperature
  * `TSMP` - total number of samples
  * `UNIT` - alternative units; strings (deg, m, m/s)
+ * `HMMT` - HiLight Tags (if there are any)
 
 Types include:
 

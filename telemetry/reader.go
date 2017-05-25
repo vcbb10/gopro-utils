@@ -29,6 +29,7 @@ func Read(f io.Reader) (*TELEM, error) {
 		"GPSU",
 		"GYRO",
 		"HD5.",
+		"HMMT",
 		"SCAL",
 		"SIUN",
 		"STRM",
@@ -145,6 +146,13 @@ func Read(f io.Reader) (*TELEM, error) {
 						return nil, err
 					}
 					t.Gyro = append(t.Gyro, g)
+				} else if "HMMT" == label_string {
+					g := HMMT{}
+					err := g.Parse(value)
+					if err != nil {
+						return nil, err
+					}
+					t.Hilight = g
 				} else if "GPSP" == label_string {
 					g := GPSP{}
 					err := g.Parse(value)
