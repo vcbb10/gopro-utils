@@ -5,7 +5,7 @@ TLDR:
 
 1. `ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:3 -f rawvideo GOPR0001.bin`
 2. `gopro2json -i GOPR0001.bin -o GOPR0001.json` or `gpmdinfo -i GOPR0001.bin`
-3. Use the csv/json, you can use [this](http://www.convertcsv.com/csv-to-kml.htm) to convert the gps.csv to a KML map.
+3. For generating a kml gps layer: `gps2kml -i GOPR00001.bin`
 
 ---
 
