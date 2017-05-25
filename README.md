@@ -67,7 +67,7 @@ Labels include:
  * `ACCL` - accelerometer reading x/y/z
  * `DEVC` - device 
  * `DVID` - device ID, possibly hard-coded to 0x1
- * `DVNM` - devicde name, string "Camera"
+ * `DVNM` - device name, string "Camera"
  * `EMPT` - empty packet
  * `GPS5` - GPS data (lat, lon, alt, speed, 3d speed)
  * `GPSF` - GPS fix (none, 2d, 3d)
