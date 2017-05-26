@@ -3,9 +3,14 @@ GoPro Metadata Format Parser
 
 TLDR:
 
-1. `ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:m:handler_name:"	GoPro MET" -f rawvideo GOPR0001.bin`
+1. 
+~~~~
+ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:m:handler_name:"	GoPro MET" -f rawvideo GOPR0001.bin
+~~~~
 Note the gap before GoPro MET should be a TAB, not a space.
+
 2. `gopro2json -i GOPR0001.bin -o GOPR0001.json`
+
 3. There is no step 3
 
 ---
