@@ -1,3 +1,13 @@
 .DS_Store
+
+# -- Executable programs --
 bin/gpmdinfo/gpmdinfo
 bin/gopro2json/gopro2json
+bin/gpmd2csv/gpmd2cvs
+bin/gpmd2srt/gpmd2srt
+bin/gps2kml/gps2kml
+
+# -- Generated files --
+*.csv
+*.srt
+*.kml

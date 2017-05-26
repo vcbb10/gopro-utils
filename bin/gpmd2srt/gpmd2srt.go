@@ -59,16 +59,22 @@ func main() {
 		}
 		
  		for i, _ := range t.Accl {
+			
+	    	milliseconds := Round(float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Accl)))*float64(i))), .5, 0) / 1000
+			next_milliseconds := Round(float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Accl)))*float64(i+1))), .5, 0) / 1000
+			current := ""
+			next := ""
+			if int(milliseconds) != 0{
 			count = count + 1
-	    	milliseconds := Round(float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Accl)))*float64(i))), .5, 3)
-			next_milliseconds := Round(float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Accl)))*float64(i+1))), .5, 3)
-
-			current := Ms2hms(milliseconds)
-			next := Ms2hms(next_milliseconds)
+			current = Ms2hms(milliseconds)
+			next = Ms2hms(next_milliseconds)
 			text_str := "X: " + floattostr(t.Accl[i].X) + "\nY: " + floattostr(t.Accl[i].Y) + "\nZ: " + floattostr(t.Accl[i].Z)
+			fmt.Println(milliseconds)
 			file.WriteString("\n" + strconv.Itoa(count) + "\n")
 			file.WriteString(current + " --> " + next + "\n")
 			file.WriteString(text_str + "\n")
+			}
+			
 			
 		}
 		t = &telemetry.TELEM{}
@@ -112,14 +118,12 @@ func Round(val float64, roundOn float64, places int ) (newVal float64) {
 func Ms2hms(ms float64) string {
 	xstr := floattostr(ms)
 	i := strings.Index(xstr, ".")
-	decimal := "0"
-	if len(xstr[i+1:]) > 3 {
-		decimal = "000"
-	} else {
-		decimal = xstr[i+1:]
+	decimal := xstr[i+1:]
+	if len(xstr[i+1:]) < 3{
+		decimal = xstr[i+1:] + "0"
 	}
-	x := ms / 1000
-	seconds := int(math.Mod(x, 60) + 1)
+	x := ms
+	seconds := int(ms)
 	x = x / 60
 	minutes := int(math.Mod(x, 60))
 	x = x / 60
