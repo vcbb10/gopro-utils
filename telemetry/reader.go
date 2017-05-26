@@ -35,6 +35,10 @@ func Read(f io.Reader) (*TELEM, error) {
 		"TMPC",
 		"TSMP",
 		"UNIT",
+		"TICK",
+		"STNM",
+		"ISOG",
+		"SHUT",
 	}
 
 	label := make([]byte, 4, 4) // 4 byte ascii label of data
@@ -161,12 +165,21 @@ func Read(f io.Reader) (*TELEM, error) {
 					t.GpsFix = g
 				} else if "UNIT" == label_string {
 					// this is a string of units like "rad/s", not sure if it changes
-					//fmt.Printf("\tvals: %s\n", value)
+					//fmt.Printf("\tUN: %s\n", value)
 				} else if "SIUN" == label_string {
 					// this is the SI unit - also not sure if it changes
-					//fmt.Printf("\tvals: %s\n", value)
+
+					//fmt.Printf("\tSI: %s\n", value)
 				} else if "DVNM" == label_string {
 					// device name, "Camera"
+					//fmt.Printf("\tvals: %s\n", value)
+				} else if "TICK" == label_string {
+					//fmt.Printf("\tvals: %s\n", value)
+				} else if "STNM" == label_string {
+					//fmt.Printf("\tvals: %s\n", value)
+				} else if "ISOG" == label_string {
+					//fmt.Printf("\tvals: %s\n", value)
+				} else if "SHUT" == label_string {
 					//fmt.Printf("\tvals: %s\n", value)
 				} else {
 					//fmt.Printf("\tvalue is %v\n", value)
