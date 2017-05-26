@@ -11,8 +11,8 @@ If you enjoy working on this sort of thing, please see our [careers page](https:
 
 - Golang
 - FFmpeg
-- [Go.geo](http://gitbub.com/paulmach/go.geo)
-- [Go.geotools](http://github.com/paulmach/go.geotools)
+- [Go.geo](https://github.com/paulmach/go.geo)
+- [Go.geojson](https://github.com/paulmach/go.geojson)
 
 Extracting the Metadata File
 ----------------------------
@@ -45,6 +45,7 @@ There are several utilities in this repo that generate different type of data:
 - ```gpmdinfo``` prints the metadata
 - ```gps2kml``` exports a KML file of the GPS track in the video
 - ```gpmd2srt``` exports a .srt file with acceleration readings (X,Y,Z)
+- ```stats``` prints stats from your video
 
 Clone the repo and build each of the utilities by doing ```go build``` inside the corresponding directory.
 
