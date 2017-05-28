@@ -49,6 +49,11 @@ There are several utilities in this repo that generate different type of data:
 
 Clone the repo and build each of the utilities by doing ```go build``` inside the corresponding directory.
 
+### Which cameras are supported:
+
+- HERO5 Black: Gyro, Accelerometer, GPS (Lat/Long/Altitude/Speed/Speed3d), GPS Fix & accuracy, temperature
+- HERO5 Session: Gyro, Accelerometer, Temperature
+
 Data We Get
 -----------
 

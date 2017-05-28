@@ -13,18 +13,21 @@ import (
 )
 
 func main() {
-
-	file, err := os.Create("gpmd.srt")
-    checkError("Cannot create accl.csv file", err)
-    defer file.Close()
-
 	inName := flag.String("i", "", "Required: telemetry file to read")
+	srtName := flag.String("o", "", "Required: output srt file")
 	flag.Parse()
 	
 	if *inName == "" {
 		flag.Usage()
 		return
 	}
+	if *srtName == "" {
+		flag.Usage()
+		return
+	}
+	file, err := os.Create(*srtName)
+    checkError("Cannot create " + *srtName + " file", err)
+    defer file.Close()
 
 	telemFile, err := os.Open(*inName)
 	if err != nil {
@@ -69,7 +72,6 @@ func main() {
 			current = Ms2hms(milliseconds)
 			next = Ms2hms(next_milliseconds)
 			text_str := "X: " + floattostr(t.Accl[i].X) + "\nY: " + floattostr(t.Accl[i].Y) + "\nZ: " + floattostr(t.Accl[i].Z)
-			fmt.Println(milliseconds)
 			file.WriteString("\n" + strconv.Itoa(count) + "\n")
 			file.WriteString(current + " --> " + next + "\n")
 			file.WriteString(text_str + "\n")

@@ -10,7 +10,17 @@ import (
 )
 
 func main() {
-
+	inName := flag.String("i", "", "Required: telemetry file to read")
+	outName := flag.String("o", "", "Output kml map")
+	flag.Parse()
+	if *inName == "" {
+		flag.Usage()
+		return
+	}
+	if *outName == "" {
+		flag.Usage()
+		return
+	}
 	/*
 	<?xml version="1.0" encoding="UTF-8"?>
 	<kml xmlns="http://earth.google.com/kml/2.0">
@@ -29,18 +39,10 @@ func main() {
 	</kml>
 	*/
 	var gpsData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kml xmlns=\"http://earth.google.com/kml/2.0\">\n<Document>\n<Placemark>\n<Point><coordinates>Longitude,Latitude,Altitude</coordinates></Point>\n</Placemark>\n"
-	gpsFile, err := os.Create("gps.kml")
+	gpsFile, err := os.Create(*outName)
 	gpsFile.WriteString(gpsData)
     defer gpsFile.Close()
 	
-	inName := flag.String("i", "", "Required: telemetry file to read")
-	flag.Parse()
-
-	if *inName == "" {
-		flag.Usage()
-		return
-	}
-
 	telemFile, err := os.Open(*inName)
 	if err != nil {
 		fmt.Printf("Cannot access telemetry file %s.\n", *inName)
