@@ -14,6 +14,14 @@ If you enjoy working on this sort of thing, please see our [careers page](https:
 - [Go.geo](https://github.com/paulmach/go.geo)
 - [Go.geojson](https://github.com/paulmach/go.geojson)
 
+The go dependencies can be installed with: 
+
+```
+go get github.com/paulmach/go.geo
+go get github.com/paulmach/go.geojson
+go get github.com/stilldavid/gopro-utils/telemetry
+```
+
 Extracting the Metadata File
 ----------------------------
 
