@@ -48,7 +48,7 @@ func main() {
     defer tempFile.Close()
     tempWriter := csv.NewWriter(tempFile)
     ///////////////////////Uncomment for Gps
-    var gpsCsv = [][]string{{"Latitude","Longitude","Altitude","Speed","Speed3D","TS"}}
+    var gpsCsv = [][]string{{"Milliseconds","Latitude","Longitude","Altitude","Speed","Speed3D","TS"}}
 	gpsFile, err := os.Create(nameOut[:len(nameOut)-4]+"-gps.csv")
     checkError("Cannot create gps.csv file", err)
     defer gpsFile.Close()
@@ -111,7 +111,8 @@ func main() {
 		tempCsv = append(tempCsv, []string{strconv.Itoa(milliseconds),floattostr(float64(t.Temp.Temp))})
 		////////////////////Uncomment for Gps
 		for i, _ := range t.Gps {
-			gpsCsv = append(gpsCsv, []string{floattostr(t.Gps[i].Latitude),floattostr(t.Gps[i].Longitude),floattostr(t.Gps[i].Altitude),floattostr(t.Gps[i].Speed),floattostr(t.Gps[i].Speed3D),int64tostr(t.Gps[i].TS)})
+			milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Gps)))*float64(i)))
+			gpsCsv = append(gpsCsv, []string{floattostr(milliseconds),floattostr(t.Gps[i].Latitude),floattostr(t.Gps[i].Longitude),floattostr(t.Gps[i].Altitude),floattostr(t.Gps[i].Speed),floattostr(t.Gps[i].Speed3D),int64tostr(t.Gps[i].TS)})
 		}
 	    //////////////////////////////////////////////////////////////////////////////////
 
