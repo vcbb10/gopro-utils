@@ -15,6 +15,13 @@ Note the gap before GoPro MET should be a TAB, not a space.
 
 ---
 
+I forked stilldavid's project ( https://github.com/stilldavid/gopro-utils ) to achieve 2 things:
+- Export the data in csv format from /bin/gpmdinfo/gpmdinfo.go
+- Allow the project to work with GoPro's h5 v2.00 firmware
+
+This is my first Github repository. Any possible wrong practices are not intentional. Here continues Stilldavid's work:
+##############################################################################################################
+
 I spent some time trying to reverse-engineer the GoPro Metadata Format (GPMD or GPMDF) that is stored in GoPro Hero 5 cameras if GPS is enabled. This is what I found.
 
 Part of this code is in production on [Earthscape](https://public.earthscape.com/); for an example of what you can do with the extracted data, see [this video](https://public.earthscape.com/videos/10231).
