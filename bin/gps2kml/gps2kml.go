@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/stilldavid/gopro-utils/telemetry"
 	"io"
 	"os"
 	"strconv"
-	"github.com/stilldavid/gopro-utils/telemetry"
 )
 
 func main() {
@@ -22,27 +22,27 @@ func main() {
 		return
 	}
 	/*
-	<?xml version="1.0" encoding="UTF-8"?>
-	<kml xmlns="http://earth.google.com/kml/2.0">
-	<Document>
-	<Placemark>
-	<Point><coordinates>Longitude,Latitude,Altitude</coordinates></Point>
-	</Placemark>
-	
-	[LOOP]
-	<Placemark>
-	<Point><coordinates>LON,LAT,ALT</coordinates></Point>
-	</Placemark>
-	[/LOOP]
+		<?xml version="1.0" encoding="UTF-8"?>
+		<kml xmlns="http://earth.google.com/kml/2.0">
+		<Document>
+		<Placemark>
+		<Point><coordinates>Longitude,Latitude,Altitude</coordinates></Point>
+		</Placemark>
 
-	</Document>
-	</kml>
+		[LOOP]
+		<Placemark>
+		<Point><coordinates>LON,LAT,ALT</coordinates></Point>
+		</Placemark>
+		[/LOOP]
+
+		</Document>
+		</kml>
 	*/
 	var gpsData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kml xmlns=\"http://earth.google.com/kml/2.0\">\n<Document>\n<Placemark>\n<Point><coordinates>Longitude,Latitude,Altitude</coordinates></Point>\n</Placemark>\n"
 	gpsFile, err := os.Create(*outName)
 	gpsFile.WriteString(gpsData)
-    defer gpsFile.Close()
-	
+	defer gpsFile.Close()
+
 	telemFile, err := os.Open(*inName)
 	if err != nil {
 		fmt.Printf("Cannot access telemetry file %s.\n", *inName)
@@ -74,26 +74,24 @@ func main() {
 			break
 		}
 		/*
-		<Placemark>
-		<Point><coordinates>LON,LAT,ALT</coordinates></Point>
-		</Placemark>
+			<Placemark>
+			<Point><coordinates>LON,LAT,ALT</coordinates></Point>
+			</Placemark>
 		*/
 		for i, _ := range t.Gps {
 			var TempGpsData string
-			TempGpsData = "<Placemark>\n<Point><coordinates>" + floattostr(t.Gps[i].Longitude) + "," + floattostr(t.Gps[i].Latitude) + "," + floattostr(t.Gps[i].Altitude) + "</coordinates></Point>"+ "\n</Placemark>\n"
+			TempGpsData = "<Placemark>\n<Point><coordinates>" + floattostr(t.Gps[i].Longitude) + "," + floattostr(t.Gps[i].Latitude) + "," + floattostr(t.Gps[i].Altitude) + "</coordinates></Point>" + "\n</Placemark>\n"
 			gpsFile.WriteString(TempGpsData)
 		}
-		
+
 		t = &telemetry.TELEM{}
 	}
 	gpsFile.WriteString("</Document>\n</kml>")
 
-	
 }
 
 func floattostr(input_num float64) string {
 
-        // to convert a float number to a string
-    return strconv.FormatFloat(input_num, 'f', -1, 64)
+	// to convert a float number to a string
+	return strconv.FormatFloat(input_num, 'f', -1, 64)
 }
-

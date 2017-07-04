@@ -10,42 +10,40 @@ import (
 	"github.com/stilldavid/gopro-utils/telemetry"
 
 	//////used for csv
+	"encoding/csv"
+	"log"
 	"strconv"
-    "log"
-    "encoding/csv"
-
 )
-
 
 func main() {
 	///////////////////////////////////////////////////////////////////////////////////////////csv
 	////////////////////accelerometer
-	var acclCsv = [][]string{{"Milliseconds","AcclX","AcclY","AcclZ"}}
+	var acclCsv = [][]string{{"Milliseconds", "AcclX", "AcclY", "AcclZ"}}
 	acclFile, err := os.Create("accl.csv")
-    checkError("Cannot create accl.csv file", err)
-    defer acclFile.Close()
-    acclWriter := csv.NewWriter(acclFile)
-    /////////////////////gyroscope
-    var gyroCsv = [][]string{{"Milliseconds","GyroX","GyroY","GyroZ"}}
+	checkError("Cannot create accl.csv file", err)
+	defer acclFile.Close()
+	acclWriter := csv.NewWriter(acclFile)
+	/////////////////////gyroscope
+	var gyroCsv = [][]string{{"Milliseconds", "GyroX", "GyroY", "GyroZ"}}
 	gyroFile, err := os.Create("gyro.csv")
-    checkError("Cannot create gyro.csv file", err)
-    defer gyroFile.Close()
-    gyroWriter := csv.NewWriter(gyroFile)
-    //////////////////////temperature
-    var tempCsv = [][]string{{"Milliseconds","Temp"}}
+	checkError("Cannot create gyro.csv file", err)
+	defer gyroFile.Close()
+	gyroWriter := csv.NewWriter(gyroFile)
+	//////////////////////temperature
+	var tempCsv = [][]string{{"Milliseconds", "Temp"}}
 	tempFile, err := os.Create("temp.csv")
-    checkError("Cannot create temp.csv file", err)
-    defer tempFile.Close()
-    tempWriter := csv.NewWriter(tempFile)
-    ///////////////////////Uncomment for Gps
-    
-    var gpsCsv = [][]string{{"Latitude","Longitude","Altitude","Speed","Speed3D","TS"}}
+	checkError("Cannot create temp.csv file", err)
+	defer tempFile.Close()
+	tempWriter := csv.NewWriter(tempFile)
+	///////////////////////Uncomment for Gps
+
+	var gpsCsv = [][]string{{"Latitude", "Longitude", "Altitude", "Speed", "Speed3D", "TS"}}
 	gpsFile, err := os.Create("gps.csv")
-    checkError("Cannot create gps.csv file", err)
-    defer gpsFile.Close()
-    gpsWriter := csv.NewWriter(gpsFile)
-   
-    //////////////////////////////////////////////////////////////////////////////////////////////
+	checkError("Cannot create gps.csv file", err)
+	defer gpsFile.Close()
+	gpsWriter := csv.NewWriter(gpsFile)
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	inName := flag.String("i", "", "Required: telemetry file to read")
 	flag.Parse()
@@ -71,11 +69,9 @@ func main() {
 
 	// currently processing sentence
 
-
 	t := &telemetry.TELEM{}
 
 	seconds := -1
-
 
 	for {
 		t, err = telemetry.Read(telemFile)
@@ -97,25 +93,25 @@ func main() {
 
 		///////////////////////////////////////////////////////////////////Modified to save CSV
 		/////////////////////Accelerometer
-	    for i, _ := range t.Accl {
-	    	milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Accl)))*float64(i)))
-			acclCsv = append(acclCsv, []string{floattostr(milliseconds),floattostr(t.Accl[i].X),floattostr(t.Accl[i].Y),floattostr(t.Accl[i].Z)})
+		for i, _ := range t.Accl {
+			milliseconds := float64(seconds*1000) + float64(((float64(1000) / float64(len(t.Accl))) * float64(i)))
+			acclCsv = append(acclCsv, []string{floattostr(milliseconds), floattostr(t.Accl[i].X), floattostr(t.Accl[i].Y), floattostr(t.Accl[i].Z)})
 		}
 		/////////////////////Gyroscope
-	    for i, _ := range t.Gyro {
-	    	milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Gyro)))*float64(i)))
-			gyroCsv = append(gyroCsv, []string{floattostr(milliseconds),floattostr(t.Gyro[i].X),floattostr(t.Gyro[i].Y),floattostr(t.Gyro[i].Z)})
+		for i, _ := range t.Gyro {
+			milliseconds := float64(seconds*1000) + float64(((float64(1000) / float64(len(t.Gyro))) * float64(i)))
+			gyroCsv = append(gyroCsv, []string{floattostr(milliseconds), floattostr(t.Gyro[i].X), floattostr(t.Gyro[i].Y), floattostr(t.Gyro[i].Z)})
 		}
 		////////////////////Temperature
-		milliseconds := seconds*1000
-		tempCsv = append(tempCsv, []string{strconv.Itoa(milliseconds),floattostr(float64(t.Temp.Temp))})
+		milliseconds := seconds * 1000
+		tempCsv = append(tempCsv, []string{strconv.Itoa(milliseconds), floattostr(float64(t.Temp.Temp))})
 		////////////////////Uncomment for Gps
-		
+
 		for i, _ := range t.Gps {
-			gpsCsv = append(gpsCsv, []string{floattostr(t.Gps[i].Latitude),floattostr(t.Gps[i].Longitude),floattostr(t.Gps[i].Altitude),floattostr(t.Gps[i].Speed),floattostr(t.Gps[i].Speed3D),int64tostr(t.Gps[i].TS)})
+			gpsCsv = append(gpsCsv, []string{floattostr(t.Gps[i].Latitude), floattostr(t.Gps[i].Longitude), floattostr(t.Gps[i].Altitude), floattostr(t.Gps[i].Speed), floattostr(t.Gps[i].Speed3D), int64tostr(t.Gps[i].TS)})
 		}
-		
-	    //////////////////////////////////////////////////////////////////////////////////
+
+		//////////////////////////////////////////////////////////////////////////////////
 
 		t = &telemetry.TELEM{}
 		seconds++
@@ -123,53 +119,49 @@ func main() {
 	/////////////////////////////////////////////////////////////////////////////////////for csv
 	///////////////accelerometer
 	for _, value := range acclCsv {
-        err := acclWriter.Write(value)
-        checkError("Cannot write to accl.csv file", err)
-    }
-    defer acclWriter.Flush()
-    ///////////////gyroscope
-    for _, value := range gyroCsv {
-        err := gyroWriter.Write(value)
-        checkError("Cannot write to gyro.csv file", err)
-    }
-    defer gyroWriter.Flush()
-    /////////////temperature
-    for _, value := range tempCsv {
-        err := tempWriter.Write(value)
-        checkError("Cannot write to temp.csv file", err)
-    }
-    defer tempWriter.Flush()
-    /////////////Uncomment for Gps
-    
-    for _, value := range gpsCsv {
-        err := gpsWriter.Write(value)
-        checkError("Cannot write to gps.csv file", err)
-    }
-    defer gpsWriter.Flush()
-    
-    /////////////////////////////////////////////////////////////////////////////////////
-}
+		err := acclWriter.Write(value)
+		checkError("Cannot write to accl.csv file", err)
+	}
+	defer acclWriter.Flush()
+	///////////////gyroscope
+	for _, value := range gyroCsv {
+		err := gyroWriter.Write(value)
+		checkError("Cannot write to gyro.csv file", err)
+	}
+	defer gyroWriter.Flush()
+	/////////////temperature
+	for _, value := range tempCsv {
+		err := tempWriter.Write(value)
+		checkError("Cannot write to temp.csv file", err)
+	}
+	defer tempWriter.Flush()
+	/////////////Uncomment for Gps
 
+	for _, value := range gpsCsv {
+		err := gpsWriter.Write(value)
+		checkError("Cannot write to gps.csv file", err)
+	}
+	defer gpsWriter.Flush()
+
+	/////////////////////////////////////////////////////////////////////////////////////
+}
 
 ///////////for csv
 
 func floattostr(input_num float64) string {
 
-        // to convert a float number to a string
-    return strconv.FormatFloat(input_num, 'f', -1, 64)
+	// to convert a float number to a string
+	return strconv.FormatFloat(input_num, 'f', -1, 64)
 }
-
-
 
 func int64tostr(input_num int64) string {
 
-        // to convert a float number to a string
-    return strconv.FormatInt(input_num, 10)
+	// to convert a float number to a string
+	return strconv.FormatInt(input_num, 10)
 }
 
- func checkError(message string, err error) {
-    if err != nil {
-        log.Fatal(message, err)
-    }
+func checkError(message string, err error) {
+	if err != nil {
+		log.Fatal(message, err)
+	}
 }
-

@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/stilldavid/gopro-utils/telemetry"
 	"io"
 	"os"
 	"strconv"
 	"time"
-	"github.com/stilldavid/gopro-utils/telemetry"
 )
 
 func main() {
@@ -22,15 +22,15 @@ func main() {
 		flag.Usage()
 		return
 	}
-	
+
 	/*
-		Gets the top X highest altitude/speed 
+		Gets the top X highest altitude/speed
 	*/
 	var markerData = ""
 	markerFile, err := os.Create(*outName)
 	markerFile.WriteString(markerData)
-    defer markerFile.Close()
-	
+	defer markerFile.Close()
+
 	telemFile, err := os.Open(*inName)
 	if err != nil {
 		fmt.Printf("Cannot access telemetry file %s.\n", *inName)
@@ -67,41 +67,41 @@ func main() {
 			break
 		}
 		/*
-		[MARKER START]\t[MARKER END]\t[TEXT]
+			[MARKER START]\t[MARKER END]\t[TEXT]
 		*/
 		t.FillTimes(t.Time.Time)
 		for i, _ := range t.Gps {
 			Speed = append(Speed, t.Gps[i].Speed)
-			if t.Gps[i].Speed > BiggestSpeed{
+			if t.Gps[i].Speed > BiggestSpeed {
 				BiggestSpeed = t.Gps[i].Speed
 				BiggestSpeedTime = int64tostr(t.Gps[i].TS)
 			}
 			Altitude = append(Altitude, t.Gps[i].Altitude)
-			if t.Gps[i].Altitude > BiggestAltitude{
+			if t.Gps[i].Altitude > BiggestAltitude {
 				BiggestAltitude = t.Gps[i].Altitude
 				BiggestAltitudeTime = int64tostr(t.Gps[i].TS)
 			}
 			Epochtime = append(Epochtime, int64tostr(t.Gps[i].TS))
-			
+
 		}
 		t = &telemetry.TELEM{}
 		seconds++
 	}
 	var speed, altitude float64 = 0, 0
-	for _, value:= range Speed {
+	for _, value := range Speed {
 		speed += value
 	}
-	for _, value:= range Altitude {
+	for _, value := range Altitude {
 		altitude += value
 	}
-	markerFile.WriteString(getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestAltitudeTime)) + "\t" +getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestAltitudeTime))  + "\t" + floattostr(getBiggestFromSlice(Altitude)) + " m")
-	markerFile.WriteString("\n" + getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestSpeedTime)) + "\t" +getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestSpeedTime))  + "\t" + floattostr(getBiggestFromSlice(Speed)) + " m/s")
+	markerFile.WriteString(getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestAltitudeTime)) + "\t" + getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestAltitudeTime)) + "\t" + floattostr(getBiggestFromSlice(Altitude)) + " m")
+	markerFile.WriteString("\n" + getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestSpeedTime)) + "\t" + getDifferenceBetweenDates(getUTCTimeFromUnix(Epochtime[0]), getUTCTimeFromUnix(BiggestSpeedTime)) + "\t" + floattostr(getBiggestFromSlice(Speed)) + " m/s")
 }
 
 func floattostr(input_num float64) string {
 
-        // to convert a float number to a string
-    return strconv.FormatFloat(input_num, 'f', -1, 64)
+	// to convert a float number to a string
+	return strconv.FormatFloat(input_num, 'f', -1, 64)
 }
 
 func getDifferenceBetweenDates(date_1 string, date_2 string) string {
@@ -121,32 +121,32 @@ func getDifferenceBetweenDates(date_1 string, date_2 string) string {
 	var minute_2, _ = strconv.Atoi(date_2[13:16])
 	var second_2, _ = strconv.Atoi(date_2[17:19])
 	var decimals_2, _ = strconv.Atoi(date_2[31:35])
-    big := time.Date(
-        year_2, time.Month(month_2), day_2, hour_2, minute_2, second_2, decimals_2, time.UTC)
-    diff := start.Sub(big)
+	big := time.Date(
+		year_2, time.Month(month_2), day_2, hour_2, minute_2, second_2, decimals_2, time.UTC)
+	diff := start.Sub(big)
 	final := strconv.Itoa(int(diff.Seconds()))
 	return final
 }
 func getUTCTimeFromUnix(timestamp string) string {
 	i, err := strconv.ParseInt(timestamp[0:10], 10, 64)
-    if err != nil {
-        panic(err)
-    }
-    tm := time.Unix(i, 0).String()
+	if err != nil {
+		panic(err)
+	}
+	tm := time.Unix(i, 0).String()
 	return tm + "-" + timestamp[11:16]
 }
 func int64tostr(input_num int64) string {
 
-        // to convert a float number to a string
-    return strconv.FormatInt(input_num, 10)
+	// to convert a float number to a string
+	return strconv.FormatInt(input_num, 10)
 }
 func getBiggestFromSlice(slice []float64) float64 {
 	var n, biggest float64
-	for _,v:=range slice {
-    if v>n {
-      n = v
-      biggest = n
-    }
+	for _, v := range slice {
+		if v > n {
+			n = v
+			biggest = n
+		}
 	}
 	return biggest
 }
