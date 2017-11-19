@@ -1,6 +1,6 @@
 ===============INSTRUCTIONS=============== v3.2
 
-Just copy your GoPro Hero5 (or later) files and drop them on GPMD2CSV.bat
+Just copy your GoPro Hero5 (or later) files to this folder and drop them on GPMD2CSV.bat
 
 For suggestions, questions or presents: juan@tailorandwayne.com
 
