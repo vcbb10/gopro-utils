@@ -1,9 +1,17 @@
-GoPro Metadata Format Parser
+GoPro Metadata Format Parser + GPMD2CSV
 ============================
+
+I forked stilldavid's project ( https://github.com/stilldavid/gopro-utils ) to achieve 3 things:
+- Export the data in csv format from /bin/gpmd2csv/gpmd2csv.go
+- Allow the project to work with GoPro's h5 v2.00 firmware
+- Create a tool for easy data extraction. That's the GPMD2CSV folder. You can just drag and drop the GoPro video files on the BATCH file
+
+This is my first Github repository. Any possible wrong practices are not intentional. Here continues Stilldavid's work:
+##############################################################################################################
 
 TLDR:
 
-1. 
+1.
 ~~~~
 ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:m:handler_name:"	GoPro MET" -f rawvideo GOPR0001.bin
 ~~~~
@@ -15,12 +23,7 @@ Note the gap before GoPro MET should be a TAB, not a space.
 
 ---
 
-I forked stilldavid's project ( https://github.com/stilldavid/gopro-utils ) to achieve 2 things:
-- Export the data in csv format from /bin/gpmdinfo/gpmdinfo.go
-- Allow the project to work with GoPro's h5 v2.00 firmware
 
-This is my first Github repository. Any possible wrong practices are not intentional. Here continues Stilldavid's work:
-##############################################################################################################
 
 I spent some time trying to reverse-engineer the GoPro Metadata Format (GPMD or GPMDF) that is stored in GoPro Hero 5 cameras if GPS is enabled. This is what I found.
 
@@ -78,7 +81,7 @@ Data starts with a label that describes the data following it. Values are all bi
 Labels include:
 
  * `ACCL` - accelerometer reading x/y/z
- * `DEVC` - device 
+ * `DEVC` - device
  * `DVID` - device ID, possibly hard-coded to 0x1
  * `DVNM` - devicde name, string "Camera"
  * `EMPT` - empty packet
