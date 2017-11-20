@@ -1,6 +1,6 @@
 package main
 
-// Credit: @Kajuna || https://community.gopro.com/t5/Hero5-Metadata-Visualisation/Extracting-the-metadata-in-a-useful-format/gpm-p/40293
+// Credit: JuanIrache https://github.com/JuanIrache/gopro-utils
 import (
 	"flag"
 	"fmt"
