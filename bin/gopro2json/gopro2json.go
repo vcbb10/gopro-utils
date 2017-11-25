@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/stilldavid/gopro-utils/telemetry"
+	"github.com/JuanIrache/gopro-utils/telemetry"	//linking to my own repository while the main one is behind. Not sure if this is a good practice
 )
 
 type data struct {
