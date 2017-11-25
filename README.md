@@ -15,7 +15,7 @@ TLDR:
 ~~~~
 ffmpeg -y -i GOPR0001.MP4 -codec copy -map 0:m:handler_name:"	GoPro MET" -f rawvideo GOPR0001.bin
 ~~~~
-Note the gap before GoPro MET should be a TAB, not a space.
+Note the gap before GoPro MET should be a TAB, not a space. Also, the handler_name and position changes between camera models and frame rates. There should be a way to target always the right stream.
 
 2. `gopro2json -i GOPR0001.bin -o GOPR0001.json`
 
