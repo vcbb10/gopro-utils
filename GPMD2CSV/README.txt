@@ -1,6 +1,6 @@
-===============INSTRUCTIONS=============== v3.3
+===============INSTRUCTIONS=============== v3.4
 
-Just copy your GoPro Hero5 (or later) files to this folder and drop them on the corresponding .bat file for your camera model
+Just copy your GoPro Hero5 (or later) files to this folder and drop them on GPMD2VS.bat
 
 This is an example of what can be done with the extracted data (Just Hero5 Session IMU, no GPS in this case) https://youtu.be/bg8B0Hl_au0
 Give us a like if you like this tool :).
