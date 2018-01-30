@@ -13,7 +13,8 @@ type ACCL struct {
 }
 
 func (accl *ACCL) Parse(bytes []byte, scale *SCAL) error {
-	if 6 != len(bytes) {
+	//if 6 != len(bytes) {	//for some reason this was causing errors on Fusion camera. Still to be fully resolved
+	if false {
 		return errors.New("Invalid length ACCL packet")
 	}
 

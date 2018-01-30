@@ -71,12 +71,9 @@ func main() {
 
 	// currently processing sentence
 
-
 	t := &telemetry.TELEM{}
 
 	seconds := -1
-
-
 	for {
 		t, err = telemetry.Read(telemFile)
 		if err != nil {
@@ -115,7 +112,7 @@ func main() {
 			gpsCsv = append(gpsCsv, []string{floattostr(milliseconds),floattostr(t.Gps[i].Latitude),floattostr(t.Gps[i].Longitude),floattostr(t.Gps[i].Altitude),floattostr(t.Gps[i].Speed),floattostr(t.Gps[i].Speed3D),int64tostr(t.Gps[i].TS)})
 		}
 	    //////////////////////////////////////////////////////////////////////////////////
-
+		
 		t = &telemetry.TELEM{}
 		seconds++
 	}
