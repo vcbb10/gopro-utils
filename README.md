@@ -1,12 +1,18 @@
 GoPro Metadata Format Parser + GPMD2CSV
 ============================
 
+Example of what can be achieved: https://youtu.be/bg8B0Hl_au0
+
 I forked stilldavid's project ( https://github.com/stilldavid/gopro-utils ) to achieve 3 things:
 - Export the data in csv format from /bin/gpmd2csv/gpmd2csv.go
 - Allow the project to work with GoPro's h5 v2.00 firmware
 - Create a tool for easy data extraction. That's the GPMD2CSV folder. You can just drag and drop the GoPro video files on the BATCH file
 
-This is my first Github repository. Any possible wrong practices are not intentional. Here continues Stilldavid's work:
+This is my first Github repository. Any possible wrong practices are not intentional.
+
+Here are some other projects of mine that you might find interesting: http://tailorandwayne.com/coding-projects/
+
+Here continues Stilldavid's work:
 ##############################################################################################################
 
 TLDR:
