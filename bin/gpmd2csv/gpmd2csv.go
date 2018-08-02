@@ -20,6 +20,7 @@ func main() {
 
 
 	inName := flag.String("i", "", "Required: telemetry file to read")
+	outName := flag.String("o", "", "Output csv files")
 	flag.Parse()
 
 	if *inName == "" {
@@ -29,6 +30,9 @@ func main() {
 
 	///////////////////////////////////////////////////////////////////////////////////////////csv
 	nameOut := string(*inName);
+	if *outName != "" {
+		nameOut = string(*outName);
+	}
 	////////////////////accelerometer
 	var acclCsv = [][]string{{"Milliseconds","AcclX","AcclY","AcclZ"}}
 	acclFile, err := os.Create(nameOut[:len(nameOut)-4]+"-accl.csv")
