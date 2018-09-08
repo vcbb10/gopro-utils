@@ -1,4 +1,5 @@
 //Credit: KonradIT https://github.com/KonradIT/gopro-utils
+//and: mlouielu https://github.com/mlouielu/gopro-utils
 
 package main
 
@@ -10,7 +11,7 @@ import (
 	"time"
 
 	"github.com/JuanIrache/gopro-utils/telemetry"
-	"github.com/tkrajina/gpxgo/gpx"
+	"github.com/mlouielu/gpxgo/gpx"
 )
 
 func main() {
@@ -66,7 +67,7 @@ func main() {
 						Longitude: telems[i].Longitude,
 						Elevation: *gpx.NewNullableFloat64(telems[i].Altitude),
 					},
-					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)),
+					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)*1000),
 				},
 			)
 		}
