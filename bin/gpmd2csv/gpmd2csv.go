@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-
 	"github.com/JuanIrache/gopro-utils/telemetry"	//linking to my own repository while the main one is behind. Not sure if this is a good practice
 
 	//////used for csv
@@ -15,9 +14,7 @@ import (
 
 )
 
-
 func main() {
-
 
 	inName := flag.String("i", "", "Required: telemetry file to read")
 	outName := flag.String("o", "", "Output csv files")
@@ -74,8 +71,8 @@ func main() {
 	}(telemFile)
 
 	// currently processing sentence
-
 	t := &telemetry.TELEM{}
+	t_prev := &telemetry.TELEM{}
 
 	seconds := -1
 	for {
@@ -92,31 +89,44 @@ func main() {
 			break
 		}
 
+		// first full, guess it's about a second
+		if t_prev.IsZero() {
+			*t_prev = *t
+			t.Clear()
+			continue
+		}
+
+		// process until t.Time
+		t_prev.FillTimes(t.Time.Time)
+
 		// this is pretty useless and info overload: change it to pick a field you want
 		// or mangle it to your wishes into JSON/CSV/format of choice
-		//fmt.Println(t)
+		// fmt.Println(t_prev)
 
 		///////////////////////////////////////////////////////////////////Modified to save CSV
 		/////////////////////Accelerometer
-	    for i, _ := range t.Accl {
-	    	milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Accl)))*float64(i)))
-			acclCsv = append(acclCsv, []string{floattostr(milliseconds),floattostr(t.Accl[i].X),floattostr(t.Accl[i].Y),floattostr(t.Accl[i].Z)})
+	    for i, _ := range t_prev.Accl {
+	    	milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t_prev.Accl)))*float64(i)))
+			acclCsv = append(acclCsv, []string{floattostr(milliseconds),floattostr(t_prev.Accl[i].X),floattostr(t_prev.Accl[i].Y),floattostr(t_prev.Accl[i].Z)})
 		}
 		/////////////////////Gyroscope
-	    for i, _ := range t.Gyro {
-	    	milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Gyro)))*float64(i)))
-			gyroCsv = append(gyroCsv, []string{floattostr(milliseconds),floattostr(t.Gyro[i].X),floattostr(t.Gyro[i].Y),floattostr(t.Gyro[i].Z)})
+	    for i, _ := range t_prev.Gyro {
+	    	milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t_prev.Gyro)))*float64(i)))
+			gyroCsv = append(gyroCsv, []string{floattostr(milliseconds),floattostr(t_prev.Gyro[i].X),floattostr(t_prev.Gyro[i].Y),floattostr(t_prev.Gyro[i].Z)})
 		}
 		////////////////////Temperature
 		milliseconds := seconds*1000
-		tempCsv = append(tempCsv, []string{strconv.Itoa(milliseconds),floattostr(float64(t.Temp.Temp))})
+		tempCsv = append(tempCsv, []string{strconv.Itoa(milliseconds),floattostr(float64(t_prev.Temp.Temp))})
 		////////////////////Uncomment for Gps
-		for i, _ := range t.Gps {
-			milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len(t.Gps)))*float64(i)))
-			gpsCsv = append(gpsCsv, []string{floattostr(milliseconds),floattostr(t.Gps[i].Latitude),floattostr(t.Gps[i].Longitude),floattostr(t.Gps[i].Altitude),floattostr(t.Gps[i].Speed),floattostr(t.Gps[i].Speed3D),int64tostr(t.Gps[i].TS)})
+		for i, _ := range t_prev.Gps {
+			fmt.Println(t_prev.Gps[i].TS)
+			len := len(t_prev.Gps)
+			milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len))*float64(i)))
+			gpsCsv = append(gpsCsv, []string{floattostr(milliseconds),floattostr(t_prev.Gps[i].Latitude),floattostr(t_prev.Gps[i].Longitude),floattostr(t_prev.Gps[i].Altitude),floattostr(t_prev.Gps[i].Speed),floattostr(t_prev.Gps[i].Speed3D),int64tostr(t_prev.Gps[i].TS)})
 		}
 	    //////////////////////////////////////////////////////////////////////////////////
 		
+		*t_prev = *t
 		t = &telemetry.TELEM{}
 		seconds++
 	}
