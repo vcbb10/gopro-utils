@@ -80,10 +80,12 @@ func main() {
 			<Point><coordinates>LON,LAT,ALT</coordinates></Point>
 			</Placemark>
 		*/
-		for i, _ := range t.Gps {
-			var TempGpsData string
-			TempGpsData = "<Placemark>\n<Point><coordinates>" + floattostr(t.Gps[i].Longitude) + "," + floattostr(t.Gps[i].Latitude) + "," + floattostr(t.Gps[i].Altitude) + "</coordinates></Point>" + "\n</Placemark>\n"
-			gpsFile.WriteString(TempGpsData)
+		if t.GpsAccuracy.Accuracy < 1000 {
+			for i, _ := range t.Gps {
+				var TempGpsData string
+				TempGpsData = "<Placemark>\n<Point><coordinates>" + floattostr(t.Gps[i].Longitude) + "," + floattostr(t.Gps[i].Latitude) + "," + floattostr(t.Gps[i].Altitude) + "</coordinates></Point>" + "\n</Placemark>\n"
+				gpsFile.WriteString(TempGpsData)
+			}
 		}
 
 		t = &telemetry.TELEM{}

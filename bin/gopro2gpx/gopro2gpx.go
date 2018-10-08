@@ -57,9 +57,10 @@ func main() {
 
 		// process until t.Time
 		t_prev.FillTimes(t.Time.Time)
-		telems := t_prev.ShitJson()
-
-		for i, _ := range telems {
+		if t_prev.GpsAccuracy.Accuracy < 1000 {
+			telems := t_prev.ShitJson()
+			
+			for i, _ := range telems {
 			segment.AppendPoint(
 				&gpx.GPXPoint{
 					Point: gpx.Point{
@@ -70,6 +71,7 @@ func main() {
 					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)*1000).UTC(),
 				},
 			)
+		}
 		}
 
 		*t_prev = *t
