@@ -9,6 +9,7 @@ import (
 	"io"
 	"os"
 	"time"
+	"strconv"
 
 	"github.com/JuanIrache/gopro-utils/telemetry"
 	"github.com/mlouielu/gpxgo/gpx"
@@ -69,6 +70,7 @@ func main() {
 						Elevation: *gpx.NewNullableFloat64(telems[i].Altitude),
 					},
 					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)*1000).UTC(),
+					Comment: "GpsAccuracy: " + strconv.Itoa(int(telems[i].GpsAccuracy)),
 				},
 			)
 		}
