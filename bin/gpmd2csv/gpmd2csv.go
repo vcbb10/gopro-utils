@@ -84,18 +84,15 @@ func main() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-
 		if t == nil {
 			break
 		}
-
 		// first full, guess it's about a second
-		if t_prev.IsZero() {
-			*t_prev = *t
-			t.Clear()
-			continue
-		}
-
+		// if t_prev.IsZero() {	//skip to export even if no GPS/Time data is present
+		// 	*t_prev = *t
+		// 	t.Clear()
+		// 	continue
+		// }
 		// process until t.Time
 		t_prev.FillTimes(t.Time.Time)
 

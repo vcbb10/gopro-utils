@@ -1,4 +1,4 @@
-===============INSTRUCTIONS=============== v3.11
+===============INSTRUCTIONS=============== v3.12
 
 Just copy your GoPro Hero5 (or later) files to this folder and drop them on GPMD2VS.bat. An "exports" folder will appear with your data in multiple file formats.
 
