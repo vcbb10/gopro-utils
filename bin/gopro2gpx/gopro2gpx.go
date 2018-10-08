@@ -70,7 +70,7 @@ func main() {
 						Elevation: *gpx.NewNullableFloat64(telems[i].Altitude),
 					},
 					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)*1000).UTC(),
-					Comment: "GpsAccuracy: " + strconv.Itoa(int(telems[i].GpsAccuracy)),
+					Comment: "GpsAccuracy: " + strconv.Itoa(int(t_prev.GpsAccuracy.Accuracy)),
 				},
 			)
 		}
