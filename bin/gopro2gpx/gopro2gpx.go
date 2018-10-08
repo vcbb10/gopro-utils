@@ -19,6 +19,7 @@ func main() {
 
 	inName := flag.String("i", "", "Required: telemetry file to read")
 	outName := flag.String("o", "", "Required: gpx file to write")
+	accuracyThreshold := flag.Int("a", 1000, "Optional: GPS accuracy threshold, defaults to 1000")
 	flag.Parse()
 
 	if *inName == "" {
@@ -57,7 +58,7 @@ func main() {
 
 		// process until t.Time
 		t_prev.FillTimes(t.Time.Time)
-		if t_prev.GpsAccuracy.Accuracy < 1000 {
+		if t_prev.GpsAccuracy.Accuracy < uint16(*accuracyThreshold) {
 			telems := t_prev.ShitJson()
 			
 			for i, _ := range telems {
