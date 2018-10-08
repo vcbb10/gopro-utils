@@ -14,6 +14,7 @@ import (
 func main() {
 	inName := flag.String("i", "", "Required: telemetry file to read")
 	outName := flag.String("o", "", "Output kml map")
+	accuracyThreshold := flag.Int("a", 1000, "Optional: GPS accuracy threshold, defaults to 1000")
 	flag.Parse()
 	if *inName == "" {
 		flag.Usage()
@@ -80,7 +81,7 @@ func main() {
 			<Point><coordinates>LON,LAT,ALT</coordinates></Point>
 			</Placemark>
 		*/
-		if t.GpsAccuracy.Accuracy < 1000 {
+		if t.GpsAccuracy.Accuracy < uint16(*accuracyThreshold) {
 			for i, _ := range t.Gps {
 				var TempGpsData string
 				TempGpsData = "<Placemark>\n<Point><coordinates>" + floattostr(t.Gps[i].Longitude) + "," + floattostr(t.Gps[i].Latitude) + "," + floattostr(t.Gps[i].Altitude) + "</coordinates></Point>" + "\n</Placemark>\n"
