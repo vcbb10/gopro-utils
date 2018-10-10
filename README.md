@@ -8,6 +8,14 @@ I forked stilldavid's project ( https://github.com/stilldavid/gopro-utils ) to a
 - Allow the project to work with GoPro's h5 v2.00 firmware
 - Create a tool for easy data extraction. That's the GPMD2CSV folder. You can just drag and drop the GoPro video files on the BATCH file
 
+Over time, we have added other exporting tools. They all follow the same pattern when used with the extracted metadata .bin:
+
+`gpmd2csv -i GOPR0001.bin -o GOPR0001.csv`
+
+Aditionally to `-i` and `-o`, the gopro2gpx and gopro2kml tool allow for an `-a` accuracy option for filtering out bad GPS locations (default 1000, the lower the more accurate) and `-f` for type of fix (default 3. 0- no fix, 2 - 2D fix, 3 - 3D fix)
+
+`gopro2gpx -i GOPR0001.bin -a 500 -f 2 -o GOPR0001.gpx`
+
 This is my first Github repository. Any possible wrong practices are not intentional.
 
 Here are some other projects of mine that you might find interesting: http://tailorandwayne.com/coding-projects/
