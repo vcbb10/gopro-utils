@@ -75,6 +75,7 @@ func main() {
 	t_prev := &telemetry.TELEM{}
 
 	seconds := -1
+	var initialMilliseconds float64
 	for {
 		t, err = telemetry.Read(telemFile)
 		if err != nil {
@@ -114,10 +115,10 @@ func main() {
 		////////////////////Temperature
 		milliseconds := seconds*1000
 		tempCsv = append(tempCsv, []string{strconv.Itoa(milliseconds),floattostr(float64(t_prev.Temp.Temp))})
-		////////////////////Uncomment for Gps
+		////////////////////Gps
 		for i, _ := range t_prev.Gps {
-			len := len(t_prev.Gps)
-			milliseconds := float64(seconds*1000)+float64(((float64(1000)/float64(len))*float64(i)))
+			if (initialMilliseconds <= 0) && (t_prev.Gps[i].TS > 0) { initialMilliseconds = float64(t_prev.Gps[i].TS) / 1000 }
+			milliseconds := (float64(t_prev.Gps[i].TS) / 1000) - initialMilliseconds
 			gpsCsv = append(gpsCsv, []string{floattostr(milliseconds),floattostr(t_prev.Gps[i].Latitude),floattostr(t_prev.Gps[i].Longitude),floattostr(t_prev.Gps[i].Altitude),floattostr(t_prev.Gps[i].Speed),floattostr(t_prev.Gps[i].Speed3D),int64tostr(t_prev.Gps[i].TS),strconv.Itoa(int(t_prev.GpsAccuracy.Accuracy)),strconv.Itoa(int(t_prev.GpsFix.F))})
 		}
 	    //////////////////////////////////////////////////////////////////////////////////
