@@ -16,7 +16,11 @@ Aditionally to `-i` and `-o`, the gopro2gpx and gopro2kml tool allow for an `-a`
 
 `gopro2gpx -i GOPR0001.bin -a 500 -f 2 -o GOPR0001.gpx`
 
-This is my first Github repository. Any possible wrong practices are not intentional.
+Urgent ToDo:
+- Use GPS Time (when available) to set the milliseconds to the Accel, Gyro and Temp CSV files, so that they sync properly.
+- Use TS (GPS time) in KML exports
+
+This was my first repository. Any possible wrong practices are not intentional.
 
 Here are some other projects of mine that you might find interesting: http://tailorandwayne.com/coding-projects/
 
