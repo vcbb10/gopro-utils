@@ -12,7 +12,7 @@ Over time, we have added other exporting tools. They all follow the same pattern
 
 `gpmd2csv -i GOPR0001.bin -o GOPR0001.csv`
 
-Aditionally to `-i` and `-o`, the gopro2gpx and gopro2kml tool allow for an `-a` accuracy option for filtering out bad GPS locations (default 1000, the lower the more accurate) and `-f` for type of fix (default 3. 0- no fix, 2 - 2D fix, 3 - 3D fix)
+Aditionally to `-i` and `-o`, the gopro2gpx and gopro2kml tools allow for an `-a` accuracy option for filtering out bad GPS locations (default 1000, the lower the more accurate) and `-f` for type of fix (default 3. 0- no fix, 2 - 2D fix, 3 - 3D fix)
 
 `gopro2gpx -i GOPR0001.bin -a 500 -f 2 -o GOPR0001.gpx`
 
