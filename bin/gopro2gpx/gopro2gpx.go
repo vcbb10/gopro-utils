@@ -40,6 +40,7 @@ func main() {
 	t_prev := &telemetry.TELEM{}
 
 	track := new(gpx.GPXTrack)
+	track.Name = string(*inName)[:len(string(*inName))-4]
 	segment := new(gpx.GPXTrackSegment)
 
 	for {
