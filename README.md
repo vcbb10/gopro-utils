@@ -20,7 +20,7 @@ Urgent ToDo:
 - Use GPS Time (when available) to set the milliseconds to the Accel, Gyro and Temp CSV files, so that they sync properly.
 - Use TS (GPS time) in KML exports
 
-This was my first repository. Any possible wrong practices are not intentional.
+This was my first ~~repository~~ fork. Any possible wrong practices are not intentional.
 
 Here are some other projects of mine that you might find interesting: http://tailorandwayne.com/coding-projects/
 
