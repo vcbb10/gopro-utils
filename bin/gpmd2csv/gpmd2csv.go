@@ -88,17 +88,9 @@ func main() {
 		if t == nil {
 			break
 		}
-		// first full, guess it's about a second
-		// if t_prev.IsZero() {	//skip to export even if no GPS/Time data is present
-		// 	*t_prev = *t
-		// 	t.Clear()
-		// 	continue
-		// }
-		// process until t.Time
+
 		t_prev.FillTimes(t.Time.Time)
 
-		// this is pretty useless and info overload: change it to pick a field you want
-		// or mangle it to your wishes into JSON/CSV/format of choice
 		// fmt.Println(t_prev)
 
 		///////////////////////////////////////////////////////////////////Modified to save CSV
