@@ -6,7 +6,7 @@ Example of what can be achieved: https://youtu.be/bg8B0Hl_au0
 I forked stilldavid's project ( https://github.com/stilldavid/gopro-utils ) to achieve 3 things:
 - Export the data in csv format from /bin/gpmd2csv/gpmd2csv.go
 - Allow the project to work with GoPro's h5 v2.00 firmware
-- Create a tool for easy data extraction. That's the GPMD2CSV folder. You can just drag and drop the GoPro video files on the BATCH file
+- Create a tool for easy data extraction. That's the GPMD2CSV folder. You can just drag and drop the GoPro video files on the BATCH file. If you're not used to github, you can download the tool here: https://tailorandwayne.com/gpmd2csv/
 
 Over time, we have added other exporting tools. They all follow the same pattern when used with the extracted metadata .bin:
 
