@@ -1,11 +1,16 @@
-===============INSTRUCTIONS=============== v3.18
+===============INSTRUCTIONS=============== v3.19
 
-Just copy your GoPro Hero5 (or later) files to this folder and drop them on GPMD2VS.bat. An "exports" folder will appear with your data in multiple file formats.
+Just drop your GoPro Hero5 (or later) files GPMD2VS.bat. A "GoPro Metadata Extract" folder will appear alongside your files with your data in multiple file formats.
 
 This is an example of what can be done with the extracted data (Just Hero5 Session IMU, no GPS in this case) https://youtu.be/bg8B0Hl_au0
 Give us a like if you like this tool :).
 
 Source and bug reporting: https://github.com/JuanIrache/gopro-utils
+
+===============CREATED BY================
+Juan Irache
+
+Script optimisations and enhancements by Alex Denning
 
 ===============ATTRIBUTION===============
 
