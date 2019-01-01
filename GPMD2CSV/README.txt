@@ -1,4 +1,4 @@
-===============INSTRUCTIONS=============== v3.19
+===============INSTRUCTIONS=============== v3.20
 
 Just drop your GoPro Hero5 (or later) files GPMD2VS.bat. A "GoPro Metadata Extract" folder will appear alongside your files with your data in multiple file formats.
 
