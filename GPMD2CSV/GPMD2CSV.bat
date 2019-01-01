@@ -31,9 +31,9 @@ ECHO **************************************************
 @ECHO ON
 START "" /WAIT /MIN "%SourceScriptDirectory%bin\ffmpeg" -y -i "%~1" -codec copy -map "%stream%" -f rawvideo "%~n1".bin
 START "" /WAIT /MIN "%SourceScriptDirectory%bin\gpmd2csv" -i "%~n1".bin -o "%~n1"/"%~n1".csv
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\gopro2gpx" -i "%~n1".bin -o "%~n1"/"%~n1".gpx
 START "" /WAIT /MIN "%SourceScriptDirectory%bin\gopro2json" -i "%~n1".bin -o "%~n1"/"%~n1".json
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\gps2kml" -i "%~n1".bin -o "%~n1"/"%~n1".kml
+START "" /WAIT /MIN "%SourceScriptDirectory%bin\gps2kml" -i "%~n1".bin -a 1000 -f 3 -o "%~n1"/"%~n1".kml
+START "" /WAIT /MIN "%SourceScriptDirectory%bin\gopro2gpx" -i "%~n1".bin -a 1000 -f 3 -o "%~n1"/"%~n1".gpx
 DEL "%~n1".bin
 DEL output.txt
 Mkdir "%BatchOutputFolder%"

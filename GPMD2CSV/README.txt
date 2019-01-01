@@ -2,10 +2,22 @@
 
 Just drop your GoPro Hero5 (or later) files GPMD2VS.bat. A "GoPro Metadata Extract" folder will appear alongside your files with your data in multiple file formats.
 
+You can also drop a file on "GPMD2CSV Folder Process.bat" if you want all your video files in your folder processed
+
 This is an example of what can be done with the extracted data (Just Hero5 Session IMU, no GPS in this case) https://youtu.be/bg8B0Hl_au0
 Give us a like if you like this tool :).
 
 Source and bug reporting: https://github.com/JuanIrache/gopro-utils
+
+
+===============OPTIONS===================
+
+The script filters bad GPS locations by accuracy and type of GPS fix (GPX and KML files only). If you'd prefer a less demanding filter you can modify the -a and -f options in the GPMD2VS.bat file.
+
+A higher -a value will tolerate lower accuracy and a lower -f value will tolerate 2d fixes, for example:
+START "" /WAIT /MIN "%SourceScriptDirectory%bin\gps2kml" -i "%~n1".bin -a 3000 -f 2 -o "%~n1"/"%~n1".kml
+
+Note that if you make changes to the script you must delete the older data files if you want those same videos anaysed with the new options.
 
 ===============CREATED BY================
 Juan Irache
