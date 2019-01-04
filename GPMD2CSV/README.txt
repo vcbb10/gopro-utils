@@ -1,8 +1,8 @@
-===============INSTRUCTIONS=============== v3.20
+===============INSTRUCTIONS=============== v3.21
 
 Just drop your GoPro Hero5 (or later) files GPMD2VS.bat. A "GoPro Metadata Extract" folder will appear alongside your files with your data in multiple file formats.
 
-You can also drop a file on "GPMD2CSV Folder Process.bat" if you want all your video files in your folder processed
+You can also drop a file on "GPMD2CSV Folder Process.bat" if you want all your video files in your folder processed.
 
 This is an example of what can be done with the extracted data (Just Hero5 Session IMU, no GPS in this case) https://youtu.be/bg8B0Hl_au0
 Give us a like if you like this tool :).
@@ -12,7 +12,24 @@ Source and bug reporting: https://github.com/JuanIrache/gopro-utils
 
 ===============OPTIONS===================
 
-The script filters bad GPS locations by accuracy and type of GPS fix (GPX and KML files only). If you'd prefer a less demanding filter you can modify the -a and -f options in the GPMD2VS.bat file.
+Note: You can no longer provide multiple file names to batch process files via command line because new command line options have been implemented.
+It's best to use "GPMD2CSV Folder Process.bat" for batch processing files in the same directory.
+
+You can edit GPMD2CSV.bat to change some export preferences:
+	By Default your files will be exported to:
+		<MP4 Source File Directory>\GoPro Metadata Extract\<Input File Name>\<Input File Name>.<File Extension>
+		Example: C:\GoPro\GOPR1234.mp4 would output to: C:\GoPro\GoPro Metadata Extract\GOPR1234\GOPR1234.kml
+	Change "BatchOutputFolder=GoPro Metadata Extract" to adjust the name of the export folder (or delete everything after "=" and an export folder won't be created).
+	Change "IndSubDir=Yes" to enable creation of individual sub folders or not (Exports to "/<filename>/files" or just to "/files"
+	Change "AccuracyFilter=1000" to adjust the Accuracy Filter
+	Change "FixFilter=3" to adjust the Fix Filter.
+	
+You may also run "GPMD2CSV.bat" or "GPMD2CSV Folder Process.bat" via command line with options and override the settings in the file.
+	If running from command line, the usage format is below.  Note that "<BatchOutputFolder>" "<IndSubDir>" "<AccuracyFilter>" "<FixFilter>" are all optional.
+	GPMD2CSV.bat "<MP4 Input File>" "<BatchOutputFolder>" "<IndSubDir>" "<AccuracyFilter>" "<FixFilter>"
+
+The script filters bad GPS locations by accuracy and type of GPS fix (GPX and KML files only).
+If you'd prefer a less demanding filter you can modify "AccuracyFilter=" and "FixFilter=" options in the GPMD2VS.bat file.
 
 A higher -a value will tolerate lower accuracy and a lower -f value will tolerate 2d fixes, for example:
 START "" /WAIT /MIN "%SourceScriptDirectory%bin\gps2kml" -i "%~n1".bin -a 3000 -f 2 -o "%~n1"/"%~n1".kml
