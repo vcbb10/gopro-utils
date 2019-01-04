@@ -1,42 +1,126 @@
 @ECHO OFF
+:: If running from command line, the usage format is below.
+:: Note that "<BatchOutputFolder>" "<IndSubDir>" "<AccuracyFilter>" "<FixFilter>" are all optional
+::   GPMD2CSV.bat "<MP4 Input File>" "<BatchOutputFolder>" "<IndSubDir>" "<AccuracyFilter>" "<FixFilter>"
 
 :: Name of the folder that is created to output to (Optional)
-Set BatchOutputFolder=GoPro Metadata Extract
+:: Default=GoPro Metadata Extract
+SET BatchOutputFolder=GoPro Metadata Extract
 
+:: Make Individual Subdirectories FOR each file? Enter in Yes or No
+:: Default=Yes
+SET IndSubDir=Yes
+
+:: Choose GPS accuracy filter. FOR example 500 (high accuracy) or 10000 (very low accuracy)
+:: If this script is ran with a second command line argument, this setting is overriden.
+:: Default=1000
+SET AccuracyFilter=1000
+
+:: Choose GPS fix filter. 3 (3D Fix, best case scenario), 2 (2D fix) or 0 (no fix, but there might still be some useful data)
+:: If this script is ran with a third command line argument, this setting is overriden.
+::Default=3
+SET FixFilter=3
+
+:: ==========================================
 :: You shouldn't need to edit below this line
+::===========================================
 
-Set SourceScriptDirectory=%~dp0
-Set SourceFile=%1
+:: IF no source file, quit
+IF [%1]==[] GOTO :eof
 
-cd "%~dp1"
+:: Imports an accuracy filter as the second argument (overrides built in setting at the top)
+IF NOT [%2]==[] Set BatchOutputFolder=%2
 
-if exist "%BatchOutputFolder%\%~n1" goto :eof
+:: Imports an accuracy filter as the second argument (overrides built in setting at the top)
+IF NOT [%3]==[] Set IndSubDir=%3
 
-mkdir "%~n1"
-if [%1]==[] goto :eof
+:: Imports an accuracy filter as the second argument (overrides built in setting at the top)
+IF NOT [%4]==[] Set AccuracyFilter=%4
+
+:: Imports a a fix filter as the third argument (overrides built in setting at the top)
+IF NOT [%5]==[] Set FixFilter=%5
+
+:: Clean up Vars with quotes
+SET BatchOutputFolder=%BatchOutputFolder:"=%
+SET IndSubDir=%IndSubDir:"=%
+SET AccuracyFilter=%AccuracyFilter:"=%
+SET FixFilter=%FixFilter:"=%
+
+:: Check IF the user would like Subdirectories FOR export files
+:IndSubDirCheck
+IF '%IndSubDir%'=='No' GOTO IndSubDirNo
+IF '%IndSubDir%'=='no' GOTO IndSubDirNo
+IF '%IndSubDir%'=='N' GOTO IndSubDirNo
+IF '%IndSubDir%'=='n' GOTO IndSubDirNo
+GOTO IndSubDirYes
+
+:: SETs var IndSubDir to Yes to enable subdirectories
+:IndSubDirYes
+SET IndSubDir=Yes
+GOTO RunIt
+
+:: SETs var IndSubDir to No to disable subdirectories
+:IndSubDirNo
+SET IndSubDir=No
+GOTO RunIt
+
+:: Collection of var SETtings complete, run the main script
+:RunIt
+:: SET some defaults (Working directory, script directory).
+CD "%~dp1"
+SET ScriptDir=%~dp0
+
+:: Check IF the user wants the output files in a subdirectory and IF yes, make the folder
+IF '"%BatchOutputFolder%"'=='' (
+	SET OutputDir=%~dp1
+) Else (
+	ECHO %BatchOutputFolder%
+	SET BatchOutputFolder=%~dp1\%BatchOutputFolder%
+	MKDIR "%~dp1\%BatchOutputFolder%"
+	SET OutputDir=%~dp1\%BatchOutputFolder%
+)
+
+:: Check IF the user wants the output files in nested individual subdirectories and IF yes, make the folder
+:: Also checks IF the last output file (.gpx) EXISTs. 
+:: IF so, assumes the file has already been processed, and the script exits.
+IF '%IndSubDir%'=='Yes' (
+	MKDIR "%OutputDir%\%~n1"
+	SET OutputDir=%OutputDir%\%~n1
+	IF EXIST "%OutputDir%\%~n1\%~n1.gpx" GOTO :eof
+) Else (
+	IF EXIST "%OutputDir%\%~n1.gpx" GOTO :eof )
+
+
 :loop
-"%SourceScriptDirectory%\bin\ffmpeg" -i "%~1" > output.txt 2>&1
-for /F "delims=" %%a in ('FINDSTR "gpmd" output.txt') do set line=%%a
-echo "%line%"
-set stream= %line:~12,3%
-echo "%stream%"
+:: Creates a temporary "GPMD2CSV_output.txt" file in the system temp directory.
+"%ScriptDir%\bin\ffmpeg" -i "%~1" > "%temp%\GPMD2CSV_output.txt" 2>&1
+FOR /F "delims=" %%a in ('FINDSTR "gpmd" "%temp%\GPMD2CSV_output.txt"') DO SET line=%%a
+ECHO "%line%"
+SET stream= %line:~12,3%
+ECHO "%stream%"
 CLS
 ECHO.
+:: User friendly display of the current file being processed.
 ECHO **************************************************
 ECHO **************** Processing file: ****************
 ECHO "%~nx1"
 ECHO ***************** In Directory: ******************
 ECHO "%~dp1"
+ECHO ***************** Saving to: : *******************
+ECHO "%OutputDir%"
 ECHO **************************************************
+:: Runs the various scripts to create the output files.
+:: Turns on ECHO to show the user the command being rand and output.
 @ECHO ON
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\ffmpeg" -y -i "%~1" -codec copy -map "%stream%" -f rawvideo "%~n1".bin
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\gpmd2csv" -i "%~n1".bin -o "%~n1"/"%~n1".csv
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\gopro2json" -i "%~n1".bin -o "%~n1"/"%~n1".json
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\gps2kml" -i "%~n1".bin -a 1000 -f 3 -o "%~n1"/"%~n1".kml
-START "" /WAIT /MIN "%SourceScriptDirectory%bin\gopro2gpx" -i "%~n1".bin -a 1000 -f 3 -o "%~n1"/"%~n1".gpx
-DEL "%~n1".bin
-DEL output.txt
-Mkdir "%BatchOutputFolder%"
-Move /Y "%~n1" "%BatchOutputFolder%"
-shift
-if not [%1]==[] goto loop
+START "" /WAIT /MIN "%ScriptDir%bin\ffmpeg" -y -i "%~1" -codec COPY -map "%stream%" -f rawvideo "%temp%\GPMD2CSV.bin"
+START "" /WAIT /MIN "%ScriptDir%bin\gpmd2csv" -i "%temp%\GPMD2CSV.bin" -o "%OutputDir%\%~n1.csv"
+START "" /WAIT /MIN "%ScriptDir%bin\gopro2json" -i "%temp%\GPMD2CSV.bin" -o "%OutputDir%\%~n1.json"
+START "" /WAIT /MIN "%ScriptDir%bin\gps2kml" -i "%temp%\GPMD2CSV.bin" -a %AccuracyFilter% -f %FixFilter% -o "%OutputDir%\%~n1.kml"
+START "" /WAIT /MIN "%ScriptDir%bin\gopro2gpx" -i "%temp%\GPMD2CSV.bin" -a %AccuracyFilter% -f %FixFilter% -o "%OutputDir%\%~n1.gpx"
+@ECHO OFF
+:: Deletes the two temp files that were created
+DEL "%temp%\GPMD2CSV.bin"
+DEL "%temp%\GPMD2CSV_output.txt"
+SHIFT
+::IF NOT [%1]==[] GOTO loop
+GOTO eof
